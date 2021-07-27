@@ -62,6 +62,71 @@ console.log(getHeroById(2));
 const DCHeros = heroes.filter((hero) => hero.owner === "DC");
 console.log(DCHeros);
 
+// 22 Promises
+const promesa = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    const hero = getHeroById(4);
+    console.log("heroe en promesa", hero);
+    console.log("2 segundos después");
+    resolve(hero);
+  }, 2000);
+});
+
+promesa.then((hero) => {
+  console.log("then the la promesa", hero);
+});
+
+const getHeroByIdAsync = (id, timeOut) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const hero = getHeroById(id);
+      if (hero) {
+        resolve(hero);
+      } else {
+        reject("hero not found");
+      }
+    }, timeOut);
+  });
+};
+
+getHeroByIdAsync(7)
+  .then((hero) => {
+    console.log("resolve promise", hero);
+  })
+  .catch((error) => console.log(error));
+
+// 23 Fetch
+const giphy_API = "F9WWU8akMmyFfMy0lf9IkZU5ZbCglLUJ";
+
+const request = fetch(
+  `https://api.giphy.com/v1/gifs/random?api_key=${giphy_API}`
+);
+
+request.then((resp) =>
+  resp.json().then((data) => {
+    console.log(data);
+    const img_url = data.data.images.original.url;
+    const img = document.createElement("img");
+    img.src = img_url;
+    document.body.append(img);
+  })
+);
+
+// 24 async await
+const getImage = async () => {
+  const response = await fetch(
+    `https://api.giphy.com/v1/gifs/random?api_key=${giphy_API}`
+  );
+  const data = await response.json();
+
+  const img_url = data.data.images.original.url;
+  const img = document.createElement("img");
+  img.src = img_url;
+  document.body.append(img);
+};
+
+getImage().then(console.log);
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
