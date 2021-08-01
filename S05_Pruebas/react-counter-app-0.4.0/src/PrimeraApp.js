@@ -7,7 +7,7 @@ const PrimeraApp = ({ saludo, subtitulo }) => {
     <>
       <h1> Hola, soy {saludo} </h1>
       {/* <pre> {  JSON.stringify( saludo, null, 3 )  } </pre> */}
-      <p> {subtitulo} </p>
+      <p>{subtitulo}</p>
     </>
   );
 };
@@ -17,7 +17,7 @@ PrimeraApp.propTypes = {
 };
 
 PrimeraApp.defaultProps = {
-  subtitulo: "Soy un subtitulo",
+  subtitulo: "Soy un subtítulo",
 };
 
 export default PrimeraApp;
