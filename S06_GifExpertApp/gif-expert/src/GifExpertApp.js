@@ -1,7 +1,7 @@
 // 69, 70, 71, 72, 73
 
 import { useState, Fragment } from "react";
-import PropTypes from "prop-types";
+
 import { AddCategory } from "./components/AddCategory";
 import { GifGrid } from "./components/GifGrid";
 

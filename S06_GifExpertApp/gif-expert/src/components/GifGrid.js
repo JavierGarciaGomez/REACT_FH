@@ -1,28 +1,37 @@
-// 73
-import React from "react";
+// 73, 74, 75, 78
+import React, {useState, useEffect} from "react";
+import { getGifs } from "../helpers/getGifs";
+import { useFetchGifs } from "../hoooks/useFetchGifs";
+import { GifGridItem } from "./GifGridItem";
 
 export const GifGrid = ({ category }) => {
-  const getGifs = async () => {
-    const url =
-      "https://api.giphy.com/v1/gifs/search?api_key=F9WWU8akMmyFfMy0lf9IkZU5ZbCglLUJ&q=Rick+and+Morty&limit=8";
+  // 75
+  // const [images, setImages] = useState([])
 
-    const response = await fetch(url);
-    const { data } = await response.json();
-    const gifsData = data.map((imgData) => {
-      return {
-        id: imgData.id,
-        title: imgData.title,
-        url: imgData.images?.downsized_medium.url,
-      };
-    });
-    console.log(gifsData);
-  };
+  
 
-  getGifs();
+
+  // 78
+  const {data: images, loading} = useFetchGifs(category);
+  
 
   return (
-    <div>
-      <h3>{category}</h3>
+    <>
+      <h3 className="animate__animated animate__fadeIn">{category}</h3>
+      {loading && <p className="animate__animated animate__flash">'Cargando....'</p>}
+      <div className="card-grid">
+        
+      {/* 85 */}
+      <ol>
+        {
+          images.map((image, index) => 
+          <GifGridItem key={image.id} {...image}/>            
+          )
+        }
+      </ol>
+      
+      
     </div>
+    </>
   );
 };

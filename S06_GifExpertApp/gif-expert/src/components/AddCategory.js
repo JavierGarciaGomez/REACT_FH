@@ -1,3 +1,4 @@
+// ..., 77
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
@@ -8,10 +9,11 @@ export const AddCategory = ({ setCategories }) => {
     setinputValue(ev.target.value);
   };
 
+  // ..., 77
   const handleSubmit = (e) => {
     e.preventDefault();
     if (inputValue.trim().length > 2) {
-      setCategories((categories) => [...categories, inputValue]);
+      setCategories((categories) => [inputValue, ...categories]);
       setinputValue("");
     }
   };
