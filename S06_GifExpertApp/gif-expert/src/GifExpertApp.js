@@ -6,10 +6,10 @@ import { AddCategory } from "./components/AddCategory";
 import { GifGrid } from "./components/GifGrid";
 
 // 69
-const GifExpertApp = () => {
+export const GifExpertApp = ({defaultCategories = []}) => {
   // 70
 
-  const [categories, setCategories] = useState(["One Punch"]);
+  const [categories, setCategories] = useState(defaultCategories);
 
   // const handleAdd = (event) => {
   //   setcategories((categories) => [...categories, "new serie"]);
@@ -31,7 +31,7 @@ const GifExpertApp = () => {
   );
 };
 
-GifExpertApp.propTypes = {};
+// GifExpertApp.propTypes = {};
 
-GifExpertApp.defaultProps = {};
+// GifExpertApp.defaultProps = {};
 export default GifExpertApp;
