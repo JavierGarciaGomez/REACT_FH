@@ -1,0 +1,6 @@
+/s04BasesDeNode/salida/*.txt
+node_modules/
+tokens.txt
+.env
+uploads/productos/**.*
+uploads/usuarios/**.*
