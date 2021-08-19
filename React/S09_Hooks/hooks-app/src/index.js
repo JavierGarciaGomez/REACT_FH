@@ -1,16 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { CounterApp } from './components/01-useState/CounterApp';
+
+import './components/08-reducer/intro-reducer'
+import { TodoApp } from './components/08-reducer/TodoApp';
 
 
 
-import { HookApp } from './HookApp';
+
 
 ReactDOM.render(  
-  <HookApp/>    
+  <TodoApp/>    
     
     , 
   
   document.getElementById('root')
 );
+
 
