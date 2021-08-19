@@ -11,6 +11,7 @@ export const todoReducer = (state = [], action) => {
 
     case "toggle":
       return state.map((todo) => {
+        console.log("here");
         if (todo.id === action.payload) {
           todo.done = true;
         }
