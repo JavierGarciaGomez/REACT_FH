@@ -1,10 +1,12 @@
-// 125, 126, 127, 128
+// 125, 126, 127, 128, 129, 130, 131
 import React, { useEffect, useReducer } from "react";
 import { useForm } from "../../hooks/useForm";
 import "../styles.css";
+import { TodoList } from "./TodoList";
 import { todoReducer } from "./todoReducer";
 
 const init = () => {
+  console.log(JSON.parse(localStorage.getItem("todos")));
   return JSON.parse(localStorage.getItem("todos")) || [];
 };
 
@@ -69,26 +71,11 @@ export const TodoApp = () => {
       </h1>
       <hr></hr>
       <div className="row">
-        <div className="col-7">
-          <ul className="list-group list-group-flush">
-            {todos.map((todo, i) => (
-              <li key={todo.id} className="list-group-item">
-                <p
-                  className="text-center"
-                  onClick={() => handleComplete(todo.id)}
-                >
-                  {i + 1}, {todo.desc}
-                </p>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDelete(todo.id)}
-                >
-                  Borrar
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <TodoList
+          todos={todos}
+          handleDelete={handleDelete}
+          handleComplete={handleComplete}
+        />
         <div className="col-5">
           Agregar TODO
           <hr />
