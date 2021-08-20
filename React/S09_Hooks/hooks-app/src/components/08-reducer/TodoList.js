@@ -1,24 +1,19 @@
+// 131
 import React from "react";
+import { TodoListItem } from "./TodoListItem";
 
 export const TodoList = ({ todos, handleDelete, handleComplete }) => {
   return (
     <div className="col-7">
       <ul className="list-group list-group-flush">
         {todos.map((todo, i) => (
-          <li key={todo.id} className="list-group-item">
-            <p
-              className={`text-center ${todo.done && "completed"}`}
-              onClick={() => handleComplete(todo.id)}
-            >
-              {i + 1}, {todo.desc}
-            </p>
-            <button
-              className="btn btn-danger"
-              onClick={() => handleDelete(todo.id)}
-            >
-              Borrar
-            </button>
-          </li>
+          <TodoListItem
+            key={todo.id}
+            todo={todo}
+            index={i}
+            handleDelete={handleDelete}
+            handleComplete={handleComplete}
+          />
         ))}
       </ul>
     </div>
