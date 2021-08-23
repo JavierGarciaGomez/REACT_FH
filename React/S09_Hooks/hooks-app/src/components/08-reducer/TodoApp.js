@@ -6,7 +6,6 @@ import { TodoList } from "./TodoList";
 import { todoReducer } from "./todoReducer";
 
 const init = () => {
-  console.log(JSON.parse(localStorage.getItem("todos")));
   return JSON.parse(localStorage.getItem("todos")) || [];
 };
 
