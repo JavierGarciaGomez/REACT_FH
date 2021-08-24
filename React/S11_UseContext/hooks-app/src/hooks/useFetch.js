@@ -1,39 +1,41 @@
-// ..., 114 
-
-import { useEffect, useRef, useState } from "react"
+import { useState, useEffect, useRef } from "react";
 
 export const useFetch = (url) => {
-    // 114
-    const isMounted = useRef(true);
+  const isMounted = useRef(true);
+  const [state, setState] = useState({
+    data: null,
+    loading: true,
+    error: null,
+  });
 
-    const [state, setstate] = useState({data: null, loading: true, error: null});
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
-    // 114, para que cuando esté cargado se cambié el mounted
-    useEffect(() => {
-        return () => {
-            isMounted.current=false;
+  useEffect(() => {
+    setState({ data: null, loading: true, error: null });
+
+    fetch(url)
+      .then((resp) => resp.json())
+      .then((data) => {
+        if (isMounted.current) {
+          setState({
+            loading: false,
+            error: null,
+            data,
+          });
         }
-    }, [])
+      })
+      .catch(() => {
+        setState({
+          data: null,
+          loading: false,
+          error: "No se pudo cargar la info",
+        });
+      });
+  }, [url]);
 
-
-    useEffect(() => {
-
-        setstate({data: null, loading: true})
-
-        fetch(url).then(resp => resp.json())
-        .then(data => {            
-            // hacer la acción solo cuando esté montado
-            if(isMounted.current){
-                setstate({
-                    loading: false,
-                    error: null,
-                    data
-                })
-            } 
-            
-        })
-    }, [url])
-
-    return state;
-        
-}
+  return state;
+};
