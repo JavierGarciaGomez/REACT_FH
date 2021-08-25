@@ -3,7 +3,6 @@ export const todoReducer = (state = [], action) => {
   console.log("entering todoReducer", state, action);
   switch (action.type) {
     case "add":
-      console.log("im in add,", state);
       return [...state, action.payload];
 
     //   129

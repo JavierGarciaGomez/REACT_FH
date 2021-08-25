@@ -2,10 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import "./components/08-reducer/intro-reducer";
-import { MainApp } from "./components/09-useContext/MainApp";
+import { TodoApp } from "./components/08-reducer/TodoApp";
 
 ReactDOM.render(
-  <MainApp />,
+  <TodoApp />,
 
   document.getElementById("root")
 );

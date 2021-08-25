@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pruebas en <AppRouter /> debe de mostrarse correctamente 1`] = `
+<div>
+  <nav
+    className="navbar navbar-expand-sm navbar-dark bg-dark"
+  >
+    <div
+      className="container-fluid"
+    >
+      <a
+        className="navbar-brand"
+        href="#"
+      >
+        Navbar
+      </a>
+      <button
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+        className="navbar-toggler"
+        data-bs-target="#navbarNavAltMarkup"
+        data-bs-toggle="collapse"
+        type="button"
+      >
+        <span
+          className="navbar-toggler-icon"
+        />
+      </button>
+      <div
+        className="collapse navbar-collapse"
+        id="navbarNavAltMarkup"
+      >
+        <div
+          className="navbar-nav"
+        >
+          <a
+            aria-current="page"
+            className="nav-link active"
+            href="/"
+            onClick={[Function]}
+            style={Object {}}
+          >
+            Home
+          </a>
+          <a
+            aria-current={null}
+            className="nav-link"
+            href="/Login"
+            onClick={[Function]}
+          >
+            Login
+          </a>
+          <a
+            aria-current={null}
+            className="nav-link"
+            href="/About"
+            onClick={[Function]}
+          >
+            About
+          </a>
+          <a
+            aria-current="page"
+            aria-disabled="true"
+            className="nav-link disabled active"
+            href="/"
+            onClick={[Function]}
+            style={Object {}}
+            tabIndex="-1"
+          >
+            Disabled
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div
+    className="container"
+  >
+    <div>
+      <h1>
+        Home Screen
+      </h1>
+      <pre>
+        {"id":1,"name":"Fernando"}
+      </pre>
+      <p>
+        Hello, 
+        Fernando
+      </p>
+      <hr />
+    </div>
+  </div>
+</div>
+`;

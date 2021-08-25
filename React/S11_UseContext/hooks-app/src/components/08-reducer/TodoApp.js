@@ -47,7 +47,7 @@ export const TodoApp = () => {
   return (
     <div>
       <h1>
-        TodoApp (<small>{todos.length}</small>)
+        TodoApp (<small> {todos.length} </small>)
       </h1>
       <hr></hr>
       <div className="row">
