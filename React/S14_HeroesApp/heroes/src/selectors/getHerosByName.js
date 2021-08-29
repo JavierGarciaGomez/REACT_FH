@@ -1,3 +1,4 @@
+// 182
 import { heroes } from "../data/heros";
 
 export const getHeroesByName = (name = "") => {
