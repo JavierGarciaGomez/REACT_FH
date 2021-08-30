@@ -24,8 +24,7 @@ describe("Pruebas en authReducer", () => {
       type: types.logout,
     };
 
-    const state = authReducer({ logged: true, name: "JGG" }, action);
-    console.log("print state", state);
+    const state = authReducer({ logged: true, name: "Pedro" }, action);
     expect(state).toEqual({ logged: false });
   });
 });

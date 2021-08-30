@@ -52,8 +52,8 @@ export const SearchScreen = ({ history }) => {
           <hr></hr>
           {q === "" && <div className="alert alert-info">Search a hero</div>}
           {q !== "" && herosFiltered.length === 0 && (
-            <div className="alert alert-info">
-              There is no a hero with that name
+            <div className="alert alert-danger">
+              There is no hero with that name
             </div>
           )}
           {herosFiltered.map((hero) => (
