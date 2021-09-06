@@ -1,4 +1,4 @@
-// 238, 240, 241, 245
+// 238, 240, 241, 245, 249
 
 import {
   getAuth,
@@ -10,18 +10,19 @@ import {
 import { googleAuthProvider } from "../firebase-config";
 
 import { types } from "../types/types";
+import { finishLoading, startLoading } from "./ui";
 
 // 240, 247
 export const startLoginEmailPassword = (email, password) => {
   // el dispatch viene de thunk
   return (dispatch) => {
+    dispatch(startLoading());
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCred) => {
         const { user } = userCred;
-        console.log(user);
-
         dispatch(login(user.uid, user.displayName));
+        dispatch(finishLoading());
       })
       .catch((error) => {
         console.log(error);

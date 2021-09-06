@@ -1,6 +1,6 @@
-// ..., 238, 240, 241
+// ..., 238, 240, 241, 245
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { startLoginEmailPassword, startGoogleLogin } from "../../actions/auth";
 import { useForm } from "../../hooks/useForm";
@@ -8,6 +8,8 @@ import { useForm } from "../../hooks/useForm";
 export const LoginScreen = () => {
   // 238
   const dispatch = useDispatch();
+  // 245
+  const { loading } = useSelector((state) => state.ui);
 
   // 238
   const [formValues, handleInputChange] = useForm({
@@ -53,6 +55,7 @@ export const LoginScreen = () => {
           type="submit"
           className="btn btn-primary btn-block"
           onClick={handleLogin}
+          disabled={loading}
         >
           Login
         </button>
