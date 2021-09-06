@@ -1,8 +1,18 @@
-// 219, 112
+// 219, 112, 242
 import React from "react";
 import { Link } from "react-router-dom";
 
 export const RegisterScreen = () => {
+  // 242
+  /* {
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  }
+
+  handleRegister = (e) {}
+  */
   return (
     <>
       <h3 className="auth__title">Register </h3>
