@@ -1,4 +1,4 @@
-// 236, 237
+// 236, 237, 249
 
 import { types } from "../types/types";
 
@@ -12,13 +12,13 @@ Funcionamiento:
     }
 */
 
-const initialState = {
-  uid: 1234,
-  name: "JGG",
-  address: { Street: "a" },
-};
+// const initialState = {
+//   uid: 1234,
+//   name: "JGG",
+//   address: { Street: "a" },
+// };
 
-export const authReducer = (state = { initialState }, action) => {
+export const authReducer = (state = {}, action) => {
   switch (action.type) {
     case types.login:
       return { uid: action.payload.uid, name: action.payload.displayName };

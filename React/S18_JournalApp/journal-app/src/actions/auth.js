@@ -1,31 +1,28 @@
-// 238, 240, 241, 245, 249
+// 238, 240, 241, 245, 249, 251
+import Swal from "sweetalert2";
 
-import {
-  getAuth,
-  signInWithPopup,
-  createUserWithEmailAndPassword,
-  updateProfile,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { googleAuthProvider } from "../firebase-config";
-
+import { firebase, googleAuthProvider } from "../firebase/firebase-config";
 import { types } from "../types/types";
-import { finishLoading, startLoading } from "./ui";
+import { startLoading, finishLoading } from "./ui";
 
 // 240, 247
 export const startLoginEmailPassword = (email, password) => {
   // el dispatch viene de thunk
   return (dispatch) => {
     dispatch(startLoading());
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCred) => {
-        const { user } = userCred;
+
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(({ user }) => {
         dispatch(login(user.uid, user.displayName));
+
         dispatch(finishLoading());
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((e) => {
+        console.log(e);
+        dispatch(finishLoading());
+        // Swal.fire("Error", e.message, "error");
       });
   };
 };
@@ -33,11 +30,12 @@ export const startLoginEmailPassword = (email, password) => {
 // 241
 export const startGoogleLogin = () => {
   return (dispatch) => {
-    const auth = getAuth();
-    signInWithPopup(auth, googleAuthProvider).then((userCred) => {
-      const { user } = userCred;
-      dispatch(login(user.uid, user.displayName));
-    });
+    firebase
+      .auth()
+      .signInWithPopup(googleAuthProvider)
+      .then(({ user }) => {
+        dispatch(login(user.uid, user.displayName));
+      });
   };
 };
 
@@ -52,15 +50,31 @@ export const login = (uid, displayName) => ({
 // 245
 export const startRegisterWithData = (email, password, name) => {
   return (dispatch) => {
-    const auth = getAuth();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(async (userCred) => {
-        const { user } = userCred;
-        await updateProfile(user, { displayName: name });
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(async ({ user }) => {
+        await user.updateProfile({ displayName: name });
+
         dispatch(login(user.uid, user.displayName));
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((e) => {
+        console.log(e);
+        Swal.fire("Error", e.message, "error");
       });
   };
 };
+
+// 251
+export const startLogout = () => {
+  return async (dispatch) => {
+    await firebase.auth().signOut();
+
+    dispatch(logout());
+  };
+};
+
+// 251
+export const logout = () => ({
+  type: types.logout,
+});

@@ -1,11 +1,9 @@
 // 241
-
+import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { GoogleAuthProvider } from "firebase/auth";
+
+import "firebase/firestore";
 
 // import { getAnalytics } from "firebase/analytics";
 const firebaseConfig = {
@@ -18,13 +16,9 @@ const firebaseConfig = {
   measurementId: "G-NKRYS2H8FR",
 };
 
-// Initialize Firebase database
+firebase.initializeApp(firebaseConfig);
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
-const db = getFirestore();
-
-const googleAuthProvider = new GoogleAuthProvider();
-
-export { db, googleAuthProvider };
+export { db, googleAuthProvider, firebase };
