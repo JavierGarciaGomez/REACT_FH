@@ -1,4 +1,4 @@
-// 238, 240, 241, 245, 249, 251
+// 238, 240, 241, 245, 249, 251, 253
 import Swal from "sweetalert2";
 
 import { firebase, googleAuthProvider } from "../firebase/firebase-config";
