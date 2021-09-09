@@ -1,4 +1,4 @@
-// 219, 249, 252
+// 219, 249, 252, 262,
 import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
@@ -17,6 +17,8 @@ import { login } from "../actions/auth";
 import { PrivateRoute } from "./PrivateRoute";
 import { PublicRoute } from "./PublicRoute";
 
+import { startLoadingNotes } from "../actions/notes";
+
 export const AppRouter = () => {
   // 249
   const dispatch = useDispatch();
@@ -27,11 +29,13 @@ export const AppRouter = () => {
 
   useEffect(() => {
     //
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged(async (user) => {
       if (user?.uid) {
         dispatch(login(user.uid, user.displayName));
 
         setIsLoggedIn(true);
+
+        dispatch(startLoadingNotes(user.uid));
       } else {
         setIsLoggedIn(false);
       }
@@ -43,7 +47,7 @@ export const AppRouter = () => {
 
   // 250
   if (checking) {
-    return <h1> Espera...</h1>;
+    return <h1> Please wait...</h1>;
   }
 
   return (

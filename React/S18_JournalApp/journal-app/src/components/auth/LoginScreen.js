@@ -12,10 +12,7 @@ export const LoginScreen = () => {
   const { loading } = useSelector((state) => state.ui);
 
   // 238
-  const [formValues, handleInputChange] = useForm({
-    email: "jgg@gmail.com",
-    password: "123456",
-  });
+  const [formValues, handleInputChange] = useForm({});
 
   const { email, password } = formValues;
 
@@ -34,7 +31,7 @@ export const LoginScreen = () => {
   return (
     <>
       <h3 className="auth__title">Login </h3>
-      <form>
+      <form className="animate__animated animate__fadeIn">
         <input
           type="email"
           placeholder="email"

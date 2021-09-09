@@ -1,8 +1,9 @@
-// 238, 240, 241, 245, 249, 251, 253
+// 238, 240, 241, 245, 249, 251, 253, 273
 import Swal from "sweetalert2";
 
 import { firebase, googleAuthProvider } from "../firebase/firebase-config";
 import { types } from "../types/types";
+import { noteLogout } from "./notes";
 import { startLoading, finishLoading } from "./ui";
 
 // 240, 247
@@ -22,7 +23,7 @@ export const startLoginEmailPassword = (email, password) => {
       .catch((e) => {
         console.log(e);
         dispatch(finishLoading());
-        // Swal.fire("Error", e.message, "error");
+        Swal.fire("Error", e.message, "error");
       });
   };
 };
@@ -71,10 +72,11 @@ export const startLogout = () => {
     await firebase.auth().signOut();
 
     dispatch(logout());
+    dispatch(noteLogout());
   };
 };
 
-// 251
+// 252
 export const logout = () => ({
   type: types.logout,
 });
