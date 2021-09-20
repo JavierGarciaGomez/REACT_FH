@@ -11,7 +11,7 @@ import { fileUpload } from "../helpers/fileUpload";
 export const startNewNote = () => {
   return async (dispatch, getState) => {
     const state = getState();
-    console.log("notes.js, printing state", state);
+    // console.log("notes.js, printing state", state);
     const uid = state.auth.uid;
 
     const newNote = {
@@ -20,11 +20,15 @@ export const startNewNote = () => {
       date: new Date().getTime(),
     };
 
-    const docRef = await db.collection(`${uid}/journal/notes`).add(newNote);
-    console.log(docRef);
-    dispatch(activeNote(docRef.id, newNote));
-    // 273
-    dispatch(addNewNote(docRef.id, newNote));
+    try {
+      const docRef = await db.collection(`${uid}/journal/notes`).add(newNote);
+      // console.log(docRef);
+      dispatch(activeNote(docRef.id, newNote));
+      // 273
+      dispatch(addNewNote(docRef.id, newNote));
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 

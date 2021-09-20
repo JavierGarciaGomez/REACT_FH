@@ -12,14 +12,12 @@ export const fileUpload = async (file) => {
       body: formData,
     });
 
-    console.log("resp", resp);
-
     if (resp.ok) {
       const cloudResp = await resp.json();
-      console.log("cloudResp", cloudResp);
+
       return cloudResp.secure_url;
     } else {
-      throw await resp.json();
+      return null;
     }
   } catch (error) {
     throw error;

@@ -4,3 +4,6 @@ tokens.txt
 .env
 uploads/productos/**.*
 uploads/usuarios/**.*
+
+.env.development
+.env.test

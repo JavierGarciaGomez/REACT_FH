@@ -10,7 +10,7 @@ export const JournalEntries = () => {
   console.log("printing state", notes);
 
   return (
-    <div className="journal__entries animate__animated animate__fadeIn animate__faster">
+    <div className="journal__entries">
       {notes.map((note) => (
         <JournalEntry key={note.id} {...note}></JournalEntry>
       ))}
