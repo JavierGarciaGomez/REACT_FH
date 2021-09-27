@@ -1,4 +1,4 @@
-// 313, 314
+// 313, 314, 315, 316
 import { types } from "../types/types";
 
 // 314
@@ -13,13 +13,19 @@ export const eventSetActive = (event) => ({
   payload: event,
 });
 
+// 315
 export const eventClearActiveEvent = () => ({
   type: types.eventClearActiveEvent,
 });
 
-export const eventUpdated = (event) => ({
-  type: types.eventUpdated,
-  payload: event,
-});
+// 316
+export const eventUpdated = (event) => {
+  console.log("eventUpdated", event);
+
+  return {
+    type: types.eventUpdated,
+    payload: event,
+  };
+};
 
 export const eventDeleted = () => ({ type: types.eventDeleted });

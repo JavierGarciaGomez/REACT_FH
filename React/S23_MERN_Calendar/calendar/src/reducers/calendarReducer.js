@@ -1,4 +1,4 @@
-// 313
+// 313, 315, 316
 import moment from "moment";
 import { types } from "../types/types";
 
@@ -35,6 +35,7 @@ export const calendarReducer = (state = initialState, action) => {
         events: [...state.events, action.payload],
       };
 
+    // 315
     case types.eventClearActiveEvent:
       return {
         ...state,
@@ -42,13 +43,18 @@ export const calendarReducer = (state = initialState, action) => {
       };
 
     case types.eventUpdated:
+      console.log("UPDATE", action);
       return {
         ...state,
-        events: state.events.map((e) =>
-          e.id === action.payload.id ? action.payload : e
-        ),
+        events: state.events.map((e) => {
+          console.log(e.id);
+          console.log("payliad", action.payload.id);
+
+          return e.id === action.payload.id ? action.payload : e;
+        }),
       };
 
+    // 317
     case types.eventDeleted:
       return {
         ...state,

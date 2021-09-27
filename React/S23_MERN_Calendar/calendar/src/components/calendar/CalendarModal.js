@@ -1,5 +1,5 @@
-// 307, 308, 309, 310, 315
-import React, { useState } from "react";
+// 307, 308, 309, 310, 315, 316
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import Modal from "react-modal";
 import DateTimePicker from "react-datetime-picker";
@@ -7,7 +7,11 @@ import moment from "moment";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { uiCloseModal } from "../../actions/ui";
-import { eventAddNew } from "../../actions/events";
+import {
+  eventAddNew,
+  eventClearActiveEvent,
+  eventUpdated,
+} from "../../actions/events";
 
 const customStyles = {
   content: {
@@ -58,9 +62,10 @@ export const CalendarModal = () => {
     setformValues({ ...formValues, [target.name]: target.value });
   };
 
-  // 307, 312
+  // 307, 312, 315
   const closeModal = () => {
     dispatch(uiCloseModal());
+    dispatch(eventClearActiveEvent());
     setformValues(initEvent);
     //   TODO: cerrar el modal
     // setisOpen(false);
@@ -70,19 +75,17 @@ export const CalendarModal = () => {
 
   //   308
   const handleStartDateChange = (e) => {
-    setformValues({ ...formValues, start: e });
     setstartDate(e);
-    console.log(e);
+    setformValues({ ...formValues, start: e });
   };
 
   //   308
   const handleEndDateChange = (e) => {
-    setformValues({ ...formValues, end: e });
     setendDate(e);
-    console.log(e);
+    setformValues({ ...formValues, end: e });
   };
 
-  //   309, 310
+  //   309, 310, 316
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -90,7 +93,6 @@ export const CalendarModal = () => {
     const momentEnd = moment(end);
     // validación de los moments
     if (momentStart.isSameOrAfter(momentEnd, "hour")) {
-      console.log("Form Values", formValues);
       return Swal.fire(
         "Error",
         "La fecha fin debe de ser mayor a al fecha de inicio",
@@ -99,20 +101,23 @@ export const CalendarModal = () => {
     }
 
     if (title.trim().length < 2) {
-      console.log("hereeeeeeeeeeeeeeeeeeeeeeeeeeee");
       return setvalidTitle(false);
     }
 
-    dispatch(
-      eventAddNew({
-        ...formValues,
-        id: new Date().getTime(),
-        user: {
-          _id: "123",
-          name: "JGG",
-        },
-      })
-    );
+    if (activeEvent) {
+      dispatch(eventUpdated(formValues));
+    } else {
+      dispatch(
+        eventAddNew({
+          ...formValues,
+          id: new Date().getTime(),
+          user: {
+            _id: "123",
+            name: "JGG",
+          },
+        })
+      );
+    }
 
     // TODO: guardar en base de datos
 
@@ -122,6 +127,17 @@ export const CalendarModal = () => {
 
   // 312
   const { modalOpen } = useSelector((state) => state.ui);
+
+  // 315
+  const { activeEvent } = useSelector((state) => state.calendar);
+
+  useEffect(() => {
+    if (activeEvent) {
+      setformValues(activeEvent);
+    } else {
+      setformValues(initEvent);
+    }
+  }, [activeEvent, setformValues]);
 
   return (
     <Modal
@@ -133,7 +149,7 @@ export const CalendarModal = () => {
       className="modal"
       overlayClassName="modal-fondo"
     >
-      <h1> Nuevo evento </h1>
+      <h1> {activeEvent ? "Editar Evento" : "Nuevo evento"} </h1>
       <hr />
       {/* ..., 309 */}
       <form className="container" onSubmit={handleSubmit}>
