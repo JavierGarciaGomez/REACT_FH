@@ -1,14 +1,18 @@
-// 323, 324, 327, 331
+// 323, 324, 327, 331, 338
 
 const express = require("express");
 const { dbConnection } = require("./database/config");
 require("dotenv").config();
+const cors = require("cors");
 
 // Crear el servidor de express
 const app = express();
 
 // 331 DB Conexion
 dbConnection();
+
+// 338 CORS
+app.use(cors());
 
 // Directorio Público
 app.use(express.static("public"));
