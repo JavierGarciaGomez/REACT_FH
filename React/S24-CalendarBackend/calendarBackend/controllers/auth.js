@@ -1,23 +1,83 @@
-// 326
+// 326, 328, 329, 332, 334, 335
 const { response } = require("express");
+const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator");
+const Usuario = require("../models/Usuario");
 
-const crearUsuario = (req, res = response) => {
+const crearUsuario = async (req, res = response) => {
   const { name, email, password } = req.body;
 
-  res.status(400).json({
-    ok: true,
-    msg: "register",
-    name,
-    email,
-    password,
-  });
+  try {
+    let usuario = await Usuario.findOne({ email });
+    if (usuario) {
+      return res.status(400).json({
+        ok: false,
+        msg: "El usuario ya existe",
+      });
+    }
+    usuario = new Usuario(req.body);
+
+    // Encriptar contraseña
+    const salt = bcrypt.genSaltSync();
+    usuario.password = bcrypt.hashSync(password, salt);
+
+    console.log(usuario);
+    await usuario.save();
+
+    console.log(usuario);
+
+    res.status(201).json({
+      ok: true,
+      uid: usuario.id,
+      name: usuario.name,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: "false",
+      msg: "Por favor, hable con el administrador",
+    });
+  }
 };
 
-const loginUsuario = (req, res = response) => {
-  res.json({
-    ok: true,
-    msg: "login",
-  });
+// 335
+const loginUsuario = async (req, res = response) => {
+  const { email, password } = req.body;
+
+  try {
+    const usuario = await Usuario.findOne({ email });
+
+    if (!usuario) {
+      return res.status(400).json({
+        ok: false,
+        msg: "El usuario no existe con ese email",
+      });
+    }
+
+    // Confirmar los passwords
+    const validPassword = bcrypt.compareSync(password, usuario.password);
+
+    if (!validPassword) {
+      return res.status(400).json({
+        ok: false,
+        msg: "Password incorrecto",
+      });
+    }
+
+    // Generar JWT
+    // const token = await generarJWT( usuario.id, usuario.name );
+
+    res.json({
+      ok: true,
+      uid: usuario.id,
+      name: usuario.name,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Por favor hable con el administrador",
+    });
+  }
 };
 
 const revalidarToken = (req, res = response) => {

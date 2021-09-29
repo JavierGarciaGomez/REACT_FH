@@ -1,10 +1,14 @@
-// 323, 324, 327
+// 323, 324, 327, 331
 
 const express = require("express");
+const { dbConnection } = require("./database/config");
 require("dotenv").config();
 
 // Crear el servidor de express
 const app = express();
+
+// 331 DB Conexion
+dbConnection();
 
 // Directorio Público
 app.use(express.static("public"));
