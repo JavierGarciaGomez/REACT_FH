@@ -1,4 +1,4 @@
-// 323, 324, 327, 331, 338
+// 323, 324, 327, 331, 338, 342
 
 const express = require("express");
 const { dbConnection } = require("./database/config");
@@ -22,6 +22,8 @@ app.use(express.json());
 
 // Rutas
 app.use("/api/auth", require("./routes/auth"));
+// 342
+app.use("/api/events", require("./routes/events"));
 
 // TODO: auth // crear, login, renew
 // TODO: CRUD eventos
