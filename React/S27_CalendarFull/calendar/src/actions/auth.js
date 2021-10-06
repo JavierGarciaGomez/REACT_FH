@@ -77,6 +77,7 @@ const login = (user) => ({
   payload: user,
 });
 
+// 366
 export const startLogout = () => {
   return (dispatch) => {
     localStorage.clear();
