@@ -1,6 +1,6 @@
 // 307, 308, 309, 310, 315, 316
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+
 import Modal from "react-modal";
 import DateTimePicker from "react-datetime-picker";
 import moment from "moment";
