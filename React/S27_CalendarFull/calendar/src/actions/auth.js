@@ -2,6 +2,7 @@
 import { fetchSinToken, fetchConToken } from "../helpers/fetch";
 import { types } from "../types/types";
 import Swal from "sweetalert2";
+import { eventLogout } from "./events";
 
 // 360
 export const startLogin = (email, password) => {

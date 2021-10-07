@@ -1,13 +1,16 @@
-// 311, 359
+// 311, 359, 371
 export const types = {
   uiOpenModal: "[ui] Open modal",
   uiCloseModal: "[ui] Close modal",
 
   eventSetActive: "[event] Set Active",
+  eventLogout: "[event] Logout event",
+  evetStartAddNew: "[event] Start add new",
   eventAddNew: "[event] Add new",
   eventClearActiveEvent: "[event] Clear active event",
   eventUpdated: "[event] Event updated",
   eventDeleted: "[event] Event deleted",
+  eventLoaded: "[event] Events loaded",
 
   // 359
   authCheckingFinish: "[auth] Finish checking login state",

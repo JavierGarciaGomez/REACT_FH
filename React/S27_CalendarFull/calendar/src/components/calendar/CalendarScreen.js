@@ -1,23 +1,28 @@
-// 301, 302, 303, 305, 306, 312, 315, 317
-import React, { useState } from "react";
+// 301, 302, 303, 305, 306, 312, 315, 317, 373
+import React, { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Navbar } from "../ui/Navbar";
-// 302
 import { messages } from "../../helpers/calendar-messages-es";
-import "moment/locale/es";
 import { CalendarEvent } from "./CalendarEvent";
 import { CalendarModal } from "./CalendarModal";
-import { useDispatch, useSelector } from "react-redux";
 import { uiOpenModal } from "../../actions/ui";
-import { eventClearActiveEvent, eventSetActive } from "../../actions/events";
+
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import "moment/locale/es";
+// 302
+import {
+  eventClearActiveEvent,
+  eventSetActive,
+  eventStartLoading,
+} from "../../actions/events";
 import { AddNewFab } from "../ui/AddNewFab";
 import { DeleteEventFab } from "../ui/DeleteEventFab";
 
-const localizer = momentLocalizer(moment);
 // 302
 moment.locale("es");
+const localizer = momentLocalizer(moment);
 // const events = [
 //   {
 //     title: "Cumpl",
@@ -32,32 +37,27 @@ moment.locale("es");
 //   },
 // ];
 
-// 305
-const eventStyleGetter = (event, start, end, isSelected) => {
-  // console.log(event, start, end, isSelected);
-
-  const style = {
-    backgroundColor: "#367CF7",
-    borderRadius: "0px",
-    opacity: 0.8,
-    display: "block",
-    color: "white",
-  };
-
-  return {
-    style,
-  };
-};
-
-moment.locale("es");
-
 export const CalendarScreen = () => {
   const dispatch = useDispatch();
+  // 315
+  const { events, activeEvent } = useSelector((state) => state.calendar);
+  // 373
+  const { uid } = useSelector((state) => state.auth);
+  // 306
+  const [lastView, setLastView] = useState(
+    localStorage.getItem("lastView") || "month"
+  );
+
+  // 372
+  useEffect(() => {
+    dispatch(eventStartLoading());
+  }, [dispatch]);
 
   // 306, 312
   const onDoubleClick = (e) => {
     dispatch(uiOpenModal());
   };
+
   // 306
   const onSelectEvent = (e) => {
     dispatch(eventSetActive(e));
@@ -73,13 +73,22 @@ export const CalendarScreen = () => {
     dispatch(eventClearActiveEvent());
   };
 
-  // 306
-  const [lastView, setLastView] = useState(
-    localStorage.getItem("lastView") || "month"
-  );
+  // 305
+  const eventStyleGetter = (event, start, end, isSelected) => {
+    // console.log(event, start, end, isSelected);
 
-  // 315
-  const { events, activeEvent } = useSelector((state) => state.calendar);
+    const style = {
+      backgroundColor: uid === event.user._id ? "#367CF7" : "#465660",
+      borderRadius: "0px",
+      opacity: 0.8,
+      display: "block",
+      color: "white",
+    };
+
+    return {
+      style,
+    };
+  };
 
   return (
     <div className="calendar-screen">
@@ -91,14 +100,14 @@ export const CalendarScreen = () => {
         endAccesor="end"
         messages={messages}
         eventPropGetter={eventStyleGetter}
-        components={{ event: CalendarEvent }}
-        // 306
         onDoubleClickEvent={onDoubleClick}
         onSelectEvent={onSelectEvent}
-        onSelectSlot={onSelectSlot}
         onView={onViewChange}
+        onSelectSlot={onSelectSlot}
         selectable={true}
         view={lastView}
+        components={{ event: CalendarEvent }}
+        // 306
       />
       <AddNewFab />
       {activeEvent && <DeleteEventFab />}

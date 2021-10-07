@@ -10,6 +10,8 @@ import { uiCloseModal } from "../../actions/ui";
 import {
   eventAddNew,
   eventClearActiveEvent,
+  eventStartAddNew,
+  eventStartUpdate,
   eventUpdated,
 } from "../../actions/events";
 
@@ -105,18 +107,9 @@ export const CalendarModal = () => {
     }
 
     if (activeEvent) {
-      dispatch(eventUpdated(formValues));
+      dispatch(eventStartUpdate(formValues));
     } else {
-      dispatch(
-        eventAddNew({
-          ...formValues,
-          id: new Date().getTime(),
-          user: {
-            _id: "123",
-            name: "JGG",
-          },
-        })
-      );
+      dispatch(eventStartAddNew(formValues));
     }
 
     // TODO: guardar en base de datos
