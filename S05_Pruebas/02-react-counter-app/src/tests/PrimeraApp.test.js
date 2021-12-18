@@ -15,20 +15,22 @@ describe("pruebas en <Primera App>", () => {
 
   //   Pruebas enzyme
   test("debe mostrar <PrimeraApp> ", async () => {
-    const saludo = "Hola, soy anónimo";
-    const wrapper = shallow(<PrimeraApp saludo={"anónimo"} />);
-    // expect(wrapper).toMatchSnapshot();
+    const saludo = "Hola, soy Juan";
+    const wrapper = shallow(<PrimeraApp saludo={"Juan"} />);
+
+    expect(wrapper).toMatchSnapshot();
   });
 
   test("debe mostrar el subtítulo ", async () => {
-    const saludo = "Hola, soy anónimo";
-    const subtitulo = "Soy un subtítulo";
+    const saludo = "Hola, soy Juan";
+    const subtitulo = "Soy un subtítulo!";
     const wrapper = shallow(
-      <PrimeraApp saludo={"anónimo"} subtitulo={subtitulo} />
+      <PrimeraApp saludo={"Juan"} subtitulo={subtitulo} />
     );
 
     const textoParrafo = wrapper.find("p").text();
     console.log(textoParrafo);
-    // expect(textoParrafo).toBe(subtitulo);
+
+    expect(textoParrafo).toBe(subtitulo);
   });
 });

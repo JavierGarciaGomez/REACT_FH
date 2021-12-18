@@ -5,9 +5,9 @@ import heroes from "../../data/heros";
 
 describe("pruebas en 8-imp-ext", () => {
   test("debe retornar un héroe por id ", () => {
-    const id = 1;
+    const id = 2;
     const heroe = getHeroeById(id);
-    const testHeroe = heroes[0];
+    const testHeroe = heroes[1];
     expect(heroe).toEqual(testHeroe);
   });
 

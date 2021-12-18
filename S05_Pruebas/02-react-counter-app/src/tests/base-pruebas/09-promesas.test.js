@@ -4,6 +4,7 @@ import { getHeroeByIdAsync } from "../../base-pruebas/09-promesas";
 import heroes from "../../data/heros";
 
 describe("pruebas en 09-promesas", () => {
+  // el argumento done significa que se espere a la prueba para ejecutar el expect
   test("debe retornar un héroe async ", (done) => {
     const id = 2;
     const testHeroe = heroes[id - 1];
@@ -21,7 +22,7 @@ describe("pruebas en 09-promesas", () => {
     getHeroeByIdAsync(id)
       .then((heroe) => {})
       .catch((error) => {
-        console.log(error);
+        console.log("error encontrado:", error);
         expect(error).toBe("No se pudo encontrar el héroe");
         done();
       });
