@@ -13,7 +13,7 @@ describe("pruebas en <Primera App>", () => {
     expect(wrapper.getByText(saludo)).toBeInTheDocument();
   });
 
-  //   Pruebas enzyme
+  //   59 Pruebas enzyme
   test("debe mostrar <PrimeraApp> ", async () => {
     const saludo = "Hola, soy Juan";
     const wrapper = shallow(<PrimeraApp saludo={"Juan"} />);
