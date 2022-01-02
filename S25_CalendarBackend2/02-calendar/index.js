@@ -37,6 +37,6 @@ app.use("/api/events", require("./routes/events"));
 
 // 330
 app.listen(process.env.PORT, () => {
-  console.log("Server running");
+  console.log("Server running in" + process.env.PORT);
 });
 console.log("Hola, mundo");
