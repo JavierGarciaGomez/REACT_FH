@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { AddCategory } from "./components/AddCategory";
-import { GifGrid } from "./components/GifGrid";
+import { AddCategory, GifGrid } from "./components";
 
 export const GifExpertApp = () => {
   console.log("RENDERIN GIFT EXPERT");
@@ -14,7 +13,7 @@ export const GifExpertApp = () => {
       setNotification(`Category "${category}" already exists.`);
       return;
     }
-    setcategories((currentCategories) => [...currentCategories, category]);
+    setcategories((currentCategories) => [category, ...currentCategories]);
   };
 
   console.log({ categories });

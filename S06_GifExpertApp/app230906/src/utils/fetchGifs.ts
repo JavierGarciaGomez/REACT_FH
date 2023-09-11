@@ -25,6 +25,7 @@ export const getGifs = async (category: string) => {
         title: gif.title,
         url: gif.images.downsized_medium.url,
       }));
+      // await new Promise((resolve) => setTimeout(resolve, 1000));
 
       return gifs;
     } else {
