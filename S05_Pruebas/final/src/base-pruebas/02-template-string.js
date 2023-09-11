@@ -1,6 +1,3 @@
-
-
-
-export function getSaludo( nombre ) {
-    return 'Hola ' + nombre;
-}
+export const getSaludo = (nombre) => {
+  return "Hola " + nombre;
+};
