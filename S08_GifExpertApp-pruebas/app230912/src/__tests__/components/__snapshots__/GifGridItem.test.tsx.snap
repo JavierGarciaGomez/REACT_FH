@@ -1,0 +1,17 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`GifGrid  > It should match the snapshot 1`] = `
+<div>
+  <div
+    class="card"
+  >
+    <img
+      alt="Saitama"
+      src="https://one-punch.com/saitama.jpg"
+    />
+    <p>
+      Saitama
+    </p>
+  </div>
+</div>
+`;
