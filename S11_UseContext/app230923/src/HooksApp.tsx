@@ -11,6 +11,7 @@ import { Memorize } from "./06-memos/Memorize";
 import { Padre } from "./07-Memo task/Padre";
 import { TodoApp } from "./08-useReducer/TodoApp";
 import { UseReducer } from "./08-useReducer/UseReducer";
+import { UseContextPage } from "./useContext/UseContextPage";
 
 export const HooksApp = () => {
   return (
@@ -29,6 +30,7 @@ export const HooksApp = () => {
       <Padre />
       <UseReducer />
       <TodoApp />
+      <UseContextPage />
     </>
   );
 };
