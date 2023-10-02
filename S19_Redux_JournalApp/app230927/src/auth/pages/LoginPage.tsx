@@ -1,22 +1,23 @@
-import { Google } from "@mui/icons-material";
-import { Button, Grid, Link, TextField, Typography } from "@mui/material";
+import { FormEvent, useMemo } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { Button, Grid, Link, TextField, Typography } from "@mui/material";
+import { Google } from "@mui/icons-material";
 import { AuthLayout } from "../layout/AuthLayout";
-import { useAppDispatch, useForm } from "../../hooks";
-import { FormEvent } from "react";
-import { checkingAuth } from "../../store";
+import { useAppDispatch, useAppSelector, useForm } from "../../hooks";
+import { checkingAuth, startGoogleSignIn } from "../../store";
 
 export const LoginPage = () => {
+  const dispatch = useAppDispatch();
+  const { status } = useAppSelector((state) => state.authReducer);
   const { formState, handleInputChange, handleReset } = useForm({
     email: "jgg@mail.com",
     password: "secret",
   });
-  const dispatch = useAppDispatch();
   const { email, password } = formState;
+  const isAuthenticating = useMemo(() => status === "checking", [status]);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    console.log({ email, password });
     dispatch(checkingAuth({ email, password }));
     handleGoogleSignIn();
     handleReset();
@@ -24,7 +25,9 @@ export const LoginPage = () => {
 
   const handleGoogleSignIn = () => {
     console.log("handleGoogle");
+    dispatch(startGoogleSignIn());
   };
+
   return (
     <AuthLayout title="Login">
       <form onSubmit={handleSubmit}>
@@ -35,7 +38,7 @@ export const LoginPage = () => {
               type="email"
               placeholder="email@google.com"
               fullWidth
-              value={email}
+              value="email"
               name={email}
               onChange={handleInputChange}
             />
@@ -47,7 +50,7 @@ export const LoginPage = () => {
               type="password"
               placeholder="password"
               fullWidth
-              value={password}
+              value="password"
               name={password}
               onChange={handleInputChange}
             />
@@ -55,12 +58,22 @@ export const LoginPage = () => {
 
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             <Grid item xs={12} sm={6}>
-              <Button variant="contained" fullWidth type="submit">
+              <Button
+                variant="contained"
+                fullWidth
+                type="submit"
+                disabled={isAuthenticating}
+              >
                 Login
               </Button>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Button variant="contained" fullWidth>
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={handleGoogleSignIn}
+                disabled={isAuthenticating}
+              >
                 <Google />
                 <Typography sx={{ ml: 1 }}>Google</Typography>
               </Button>
