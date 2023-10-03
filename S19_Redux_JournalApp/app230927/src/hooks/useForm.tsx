@@ -6,7 +6,7 @@ type FormState<T> = {
 
 type ValidationFunction = (value: string) => boolean;
 
-type FormValidations<T> = {
+export type FormValidations<T> = {
   [K in keyof T]: Array<{ function: ValidationFunction; error: string }>;
 };
 
@@ -55,7 +55,7 @@ export const useForm = <T extends Record<string, string>>(
 
   const isFormValid = useMemo(() => {
     for (const formValue of Object.keys(formValidationState)) {
-      if (formValidationState[formValue] !== null) return false;
+      if (formValidationState[formValue]) return false;
     }
 
     return true;

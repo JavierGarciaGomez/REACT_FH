@@ -1,8 +1,21 @@
-import { Button, Grid, Link, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Grid,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { AuthLayout } from "../layout/AuthLayout";
-import { useForm } from "../../hooks";
-import { FormEvent } from "react";
+import {
+  FormValidations,
+  useAppDispatch,
+  useAppSelector,
+  useForm,
+} from "../../hooks";
+import { FormEvent, useMemo, useState } from "react";
+import { startCreatingUserWithEmailPassword } from "../../store";
 
 const initialForm = {
   email: "",
@@ -10,17 +23,7 @@ const initialForm = {
   displayName: "",
 };
 
-type ValidationFunction = (value: string) => boolean;
-
-type FormValidations<T> = {
-  [K in keyof T]: Array<{ function: ValidationFunction; error: string }>;
-};
-
-const formValidations: FormValidations<{
-  email: string;
-  password: string;
-  displayName: string;
-}> = {
+const formValidations: FormValidations<typeof initialForm> = {
   email: [
     {
       function: (value: string) => value.includes("@"),
@@ -46,22 +49,41 @@ const formValidations: FormValidations<{
 };
 
 export const RegisterPage = () => {
-  const { formState, handleInputChange, handleReset, formValidation } = useForm(
-    initialForm,
-    formValidations
-  );
-  console.log({ formValidation });
+  const dispatch = useAppDispatch();
+  const { status, errorMessage } = useAppSelector((state) => state.authReducer);
+  const isAuthenticating = useMemo(() => status === "checking", [status]);
+
+  const [isFormSubmitted, setisFormSubmitted] = useState<boolean>(false);
+  const {
+    formState,
+    handleInputChange,
+    handleReset,
+    formValidation,
+    isFormValid,
+  } = useForm(initialForm, formValidations);
+
   const { displayName, email, password } = formState;
+  const {
+    displayName: isDisplayNameValid,
+    email: isEmailValid,
+    password: isPasswordValid,
+  } = formValidation;
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    console.log({ displayName, email, password });
+    setisFormSubmitted(true);
+    if (!isFormValid) return;
+    dispatch(startCreatingUserWithEmailPassword(formState));
+
     handleReset();
   };
 
   return (
     <AuthLayout title="Register">
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+        className="animate__animated animate__fadeIn animate__faster"
+      >
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
@@ -72,6 +94,8 @@ export const RegisterPage = () => {
               name="displayName"
               value={displayName}
               onChange={handleInputChange}
+              error={!!isDisplayNameValid && isFormSubmitted}
+              helperText={isFormSubmitted && isDisplayNameValid}
             />
           </Grid>
 
@@ -84,6 +108,8 @@ export const RegisterPage = () => {
               name="email"
               value={email}
               onChange={handleInputChange}
+              error={!!isEmailValid && isFormSubmitted}
+              helperText={isFormSubmitted && isEmailValid}
             />
           </Grid>
 
@@ -96,13 +122,23 @@ export const RegisterPage = () => {
               name="password"
               value={password}
               onChange={handleInputChange}
+              error={!!isPasswordValid && isFormSubmitted}
+              helperText={isFormSubmitted && isPasswordValid}
             />
           </Grid>
 
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
+            <Grid item xs={12} sm={6} display={errorMessage ? "" : "none"}>
+              <Alert severity="error">{errorMessage}</Alert>
+            </Grid>
             <Grid item xs={12} sm={6}>
-              <Button variant="contained" fullWidth type="submit">
-                <Typography sx={{ ml: 1 }}>Register</Typography>
+              <Button
+                variant="contained"
+                fullWidth
+                type="submit"
+                disabled={isAuthenticating}
+              >
+                Register
               </Button>
             </Grid>
           </Grid>

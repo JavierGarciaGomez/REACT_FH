@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { AuthState, LoginPayload, LogoutPayload } from "../../types/storeTypes";
 
 const initialState: AuthState = {
-  status: "not-authenticated",
+  status: "checking",
 };
 
 export const authSlice = createSlice({

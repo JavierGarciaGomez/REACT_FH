@@ -12,10 +12,12 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { useAppSelector } from "../../hooks";
 
 type Props = { drawerWidth: number };
 
 export const Sidebar = ({ drawerWidth }: Props) => {
+  const { displayName } = useAppSelector((state) => state.authReducer);
   const tempList = ["Jan", "Feb", "March"];
   return (
     <Box
@@ -32,7 +34,7 @@ export const Sidebar = ({ drawerWidth }: Props) => {
       >
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
-            Username
+            {displayName}
           </Typography>
         </Toolbar>
         <Divider />
