@@ -7,6 +7,7 @@ import {
   singInWithGoogle,
 } from "../../firebase/providers";
 import { AuthUser } from "../../types/storeTypes";
+import { clearNotesLogout } from "../journal";
 
 export const checkingAuth = () => {
   return async (dispatch: Dispatch) => {
@@ -18,7 +19,7 @@ export const startGoogleSignIn = () => {
   return async (dispatch: Dispatch) => {
     dispatch(checkingCredentials());
     const result = await singInWithGoogle();
-    console.log({ result });
+
     if (!result.ok) {
       return dispatch(logout({ errorMessage: result.errorMessage! }));
     }
@@ -97,5 +98,6 @@ export const startLogout = () => {
   return async (dispatch: Dispatch) => {
     await logoutFirebase();
     dispatch(logout({ errorMessage: "logout" }));
+    dispatch(clearNotesLogout());
   };
 };

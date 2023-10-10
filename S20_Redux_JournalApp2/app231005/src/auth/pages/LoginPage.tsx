@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector, useForm } from "../../hooks";
 import { startGoogleSignIn, startLoginWithEmailAndPassword } from "../../store";
 
 const initialForm = { email: "", password: "" };
+
 export const LoginPage = () => {
   const dispatch = useAppDispatch();
   const { status, errorMessage } = useAppSelector((state) => state.authReducer);

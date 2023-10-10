@@ -1,34 +1,65 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { JournalState } from "../../types/storeTypes";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { JournalState, Note } from "../../types/storeTypes";
 
 const initialState: JournalState = {
-  isSaving: true,
+  isSaving: false,
   messageSaved: "",
   notes: [],
-  active: undefined,
+  activeNote: undefined,
 };
 
 export const journalSlice = createSlice({
-  name: "auth",
+  name: "journals",
   initialState,
   reducers: {
-    addNewEmptyNote: (state) => {
+    setSavingFalse: (state) => {
+      state.isSaving = false;
+    },
+    savingNewNote: (state) => {
       state.isSaving = true;
     },
-    setActiveNote: (state) => {
-      state.isSaving = true;
+    addNewEmptyNote: (state, action: PayloadAction<Note>) => {
+      state.notes.push(action.payload);
+      state.isSaving = false;
     },
-    setNotes: (state) => {
-      state.isSaving = true;
+    setActiveNote: (state, action: PayloadAction<Note>) => {
+      state.activeNote = action.payload;
+      state.messageSaved = "";
+    },
+    setNotes: (state, action: PayloadAction<Note[]>) => {
+      state.notes = action.payload;
     },
     setSaving: (state) => {
       state.isSaving = true;
+      state.messageSaved = "";
     },
-    updateNote: (state) => {
-      state.isSaving = true;
+    updateNote: (state, action: PayloadAction<Note>) => {
+      state.isSaving = false;
+      state.notes = state.notes.map((note) => {
+        if (note.id === action.payload.id) {
+          return action.payload;
+        }
+
+        return note;
+      });
+      state.messageSaved = `${action.payload.title}, updated successfully`;
     },
-    deleteNoteById: (state) => {
-      state.isSaving = true;
+    deleteNoteById: (state, action: PayloadAction<string>) => {
+      state.activeNote = undefined;
+      state.notes = state.notes.filter((note) => note.id !== action.payload);
+    },
+    setPhotosToActiveNote: (state, action: PayloadAction<string[]>) => {
+      state.activeNote!.imageUrls = [
+        ...state.activeNote!.imageUrls,
+        ...action.payload,
+      ];
+      state.isSaving = false;
+    },
+    clearNotesLogout: (state) => {
+      state.isSaving = false;
+      state.messageSaved = "";
+      state.notes = [];
+      state.activeNote = undefined;
     },
   },
 });
@@ -40,4 +71,8 @@ export const {
   setSaving,
   updateNote,
   deleteNoteById,
+  savingNewNote,
+  setSavingFalse,
+  setPhotosToActiveNote,
+  clearNotesLogout,
 } = journalSlice.actions;

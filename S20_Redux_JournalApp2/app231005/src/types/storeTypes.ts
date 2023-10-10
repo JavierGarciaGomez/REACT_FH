@@ -24,13 +24,13 @@ export interface JournalState {
   isSaving: boolean;
   messageSaved: string;
   notes: Note[];
-  active: Note | undefined;
+  activeNote: Note | undefined;
 }
 
 export interface Note {
-  id: string;
+  id?: string;
   title: string;
   body: string;
-  date: number;
+  date?: number;
   imageUrls: string[];
 }
