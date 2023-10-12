@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { Mock, describe, test, vi } from "vitest";
+import { Mock, describe, expect, test, vi } from "vitest";
 import { GifGrid } from "../../components";
 import { useFetchGifs } from "../../hooks/useFetchGifs";
 

@@ -1,4 +1,4 @@
-import { describe, test, vi } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 import { AddCategory } from "../../components";
 import { fireEvent, render, screen } from "@testing-library/react";
 

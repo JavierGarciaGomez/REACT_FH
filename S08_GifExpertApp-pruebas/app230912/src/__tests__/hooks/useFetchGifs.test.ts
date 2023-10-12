@@ -1,5 +1,6 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { useFetchGifs } from "../../hooks/useFetchGifs";
+import { describe, expect, test } from "vitest";
 
 describe("Test useFetchGifs", () => {
   test("It should return the initial state", () => {
@@ -13,6 +14,7 @@ describe("Test useFetchGifs", () => {
     const { result } = renderHook(() => useFetchGifs("Morgana"));
     await waitFor(() => expect(result.current.gifs.length).toBeGreaterThan(0));
     const { gifs, loading } = result.current;
+    console.log({ gifs });
     expect(gifs.length).toBeGreaterThan(0);
     expect(loading).toBeFalsy();
   });

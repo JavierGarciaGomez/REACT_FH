@@ -1,5 +1,6 @@
 import { render, fireEvent, screen } from "@testing-library/react";
 import { GifExpertApp } from "../GifExpertApp";
+import { describe, expect, it } from "vitest";
 
 describe("GifExpertApp", () => {
   it("renders the GifExpertApp component", () => {

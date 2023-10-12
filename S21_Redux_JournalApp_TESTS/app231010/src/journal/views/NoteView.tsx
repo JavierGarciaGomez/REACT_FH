@@ -6,7 +6,7 @@ import {
 import { Button, Grid, IconButton, TextField, Typography } from "@mui/material";
 import { ImageGallery } from "../components";
 import { useAppDispatch, useAppSelector, useForm } from "../../hooks";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   setActiveNote,
   startDeletingNote,
@@ -17,16 +17,28 @@ import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 
 export const NoteView = () => {
+  const dispatch = useAppDispatch();
   const { activeNote, messageSaved, isSaving } = useAppSelector(
     (state) => state.journalReducer
   );
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { id, imageUrls, date, ...note } = activeNote!;
-  const dispatch = useAppDispatch();
+  const [initialState, setinitialState] = useState({
+    body: "",
+    title: "",
+  });
+  const { id, imageUrls, date } = activeNote!;
+  useEffect(() => {
+    setinitialState({ body: activeNote!.body, title: activeNote!.title });
+  }, [activeNote]);
 
-  const { formState, handleInputChange } = useForm(note!);
+  const { formState, handleInputChange } = useForm(initialState);
+
   const { body, title } = formState;
-  const dateString = useMemo(() => new Date(date!).toUTCString(), [date]);
+  const dateString = useMemo(
+    () => new Date(activeNote!.date!).toUTCString(),
+    [activeNote]
+  );
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     dispatch(setActiveNote({ body, title, id, imageUrls, date }));
@@ -54,8 +66,6 @@ export const NoteView = () => {
   const handleDeleteNote = () => {
     dispatch(startDeletingNote());
   };
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
     <Grid
