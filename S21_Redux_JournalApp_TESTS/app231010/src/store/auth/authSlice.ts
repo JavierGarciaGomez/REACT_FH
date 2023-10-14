@@ -17,13 +17,13 @@ export const authSlice = createSlice({
       state.status = "authenticated";
       state.errorMessage = undefined;
     },
-    logout: (state, action: PayloadAction<LogoutPayload>) => {
+    logout: (state, action: PayloadAction<LogoutPayload | undefined>) => {
       state.status = "not-authenticated";
       state.uid = undefined;
       state.email = undefined;
       state.displayName = undefined;
       state.photoURL = undefined;
-      state.errorMessage = action.payload?.errorMessage;
+      state.errorMessage = action?.payload?.errorMessage;
     },
     checkingCredentials: (state) => {
       state.status = "checking";

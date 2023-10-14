@@ -16,6 +16,7 @@ import { startGoogleSignIn, startLoginWithEmailAndPassword } from "../../store";
 const initialForm = { email: "", password: "" };
 
 export const LoginPage = () => {
+  console.log("here");
   const dispatch = useAppDispatch();
   const { status, errorMessage } = useAppSelector((state) => state.authReducer);
   const { formState, handleInputChange, handleReset } = useForm(initialForm);
@@ -24,6 +25,7 @@ export const LoginPage = () => {
   const isAuthenticating = useMemo(() => status === "checking", [status]);
 
   const handleSubmit = (event: FormEvent) => {
+    console.log("handleSubmit");
     event.preventDefault();
     dispatch(startLoginWithEmailAndPassword({ email, password }));
 
@@ -38,6 +40,7 @@ export const LoginPage = () => {
   return (
     <AuthLayout title="Login">
       <form
+        aria-label="submit-form"
         onSubmit={handleSubmit}
         className="animate__animated animate__fadeIn animate__faster"
       >
@@ -63,6 +66,10 @@ export const LoginPage = () => {
               value={password}
               name="password"
               onChange={handleInputChange}
+              inputProps={{
+                "data-testid": "password",
+              }}
+              aria-label="login-btn"
             />
           </Grid>
 
@@ -89,6 +96,7 @@ export const LoginPage = () => {
                 fullWidth
                 onClick={handleGoogleSignIn}
                 disabled={isAuthenticating}
+                aria-label="google-btn"
               >
                 <Google />
                 <Typography sx={{ ml: 1 }}>Google</Typography>

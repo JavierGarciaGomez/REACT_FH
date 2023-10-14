@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { Mock, describe, expect, it, vi } from "vitest";
 import { fileUpload } from "./fileUpload";
 
 describe("fileUpload", () => {
@@ -8,28 +8,37 @@ describe("fileUpload", () => {
     );
   });
 
-  it.only("should upload a file to Cloudinary successfully", async () => {
-    // Create a mock file.
-
-    const imageUrl =
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&w=1000&q=80";
-    const resp = await fetch(imageUrl);
-    const buffer = await resp.arrayBuffer();
-
-    // Log the size of the buffer to see if it contains data.
-    console.log("Buffer size:", buffer.byteLength);
-
-    const file = new File([buffer], "foto.jpg");
-    console.log("Created File:", file);
+  it("uploads a file and returns a URL", async () => {
+    global.fetch = vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => {
+          return Promise.resolve({
+            secure_url:
+              "https://res.cloudinary.com/dwalcv9li/image/upload/v1697006043/journal/xnyv3jxkha9vblt7n1uf.jpg",
+          });
+        },
+      })
+    ) as Mock;
+    const file = new File(["This is the file content"], "file.txt");
 
     const result = await fileUpload(file);
-    console.log("Upload Result:", result);
+
+    expect(result).toMatch(
+      /^https:\/\/res\.cloudinary\.com\/dwalcv9li\/image\/upload/
+    );
   });
 
-  // // Upload the file.
-  // const url = await fileUpload(file);
+  it("should throw an error if cloudinary responds with an error", async () => {
+    global.fetch = vi.fn(() =>
+      Promise.resolve({
+        ok: false,
+      })
+    ) as Mock;
+    const file = new File(["This is the file content"], "file.txt");
 
-  // // Assert that the file was uploaded successfully.
-  // expect(url).toBe("https://example.com/hello.txt");
-  // });
+    await expect(fileUpload(file)).rejects.toThrowError(
+      "It was not posible to update the image"
+    );
+  });
 });
