@@ -1,66 +1,50 @@
-import { CalendarEventBox, Navbar } from "../components";
+import {
+  CalendarEventBox,
+  CalendarModal,
+  FabAddNew,
+  Navbar,
+} from "../components";
 import { Calendar, EventPropGetter, View } from "react-big-calendar";
-
-import { addHours } from "date-fns";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { calendarLocalizer, getMessagesES } from "../../utils";
 import { useState } from "react";
+import { useUiStore } from "../../hooks";
+import { CalendarEvent } from "../../types/types";
+import { useCalendarStore } from "../../hooks/useCalendarStore";
+import { FabDelete } from "../components/FabDelete";
 
-export type CalendarEvent = {
-  title: string;
-  notes: string;
-  start: Date;
-  end: Date;
-  bgColor: string;
-  user: {
-    _id: string;
-    name: string;
-  };
-};
-
-const events: CalendarEvent[] = [
+const eventStyleGetter: EventPropGetter<CalendarEvent> = () =>
+  // event: CalendarEvent,
+  // start: Date,
+  // end: Date,
+  // isSelected: boolean
   {
-    title: "birthday",
-    notes: "buy cake",
-    start: new Date(),
-    end: addHours(new Date(), 2),
-    bgColor: "#fafafa",
-    user: {
-      _id: "123",
-      name: "JGG",
-    },
-  },
-];
+    const style = {
+      backgroundColor: "#347CF7",
+      borderRadius: "0px",
+      opacity: 0.8,
+      color: "white",
+    };
 
-const eventStyleGetter: EventPropGetter<CalendarEvent> = (
-  event: CalendarEvent,
-  start: Date,
-  end: Date,
-  isSelected: boolean
-) => {
-  console.log({ event, start, end, isSelected });
-  const style = {
-    backgroundColor: "#347CF7",
-    borderRadius: "0px",
-    opacity: 0.8,
-    color: "white",
+    return {
+      style,
+    };
   };
-
-  return {
-    style,
-  };
-};
 
 export const CalendarPage = () => {
+  const { events, setActiveEvent } = useCalendarStore();
+  const { openDateModal } = useUiStore();
+
   const storedLastView = localStorage.getItem("lastView") || "week";
   const [lastView, setLastView] = useState(storedLastView as View);
 
   const handleDoubleClick = (event: CalendarEvent) => {
     console.log({ double: event });
+    openDateModal();
   };
 
   const handleSelect = (event: CalendarEvent) => {
-    console.log({ select: event });
+    setActiveEvent(event);
   };
 
   const handleViewChange = (view: View) => {
@@ -86,6 +70,9 @@ export const CalendarPage = () => {
         onView={handleViewChange}
         defaultView={lastView}
       />
+      <CalendarModal />
+      <FabAddNew />
+      <FabDelete />
     </>
   );
 };
