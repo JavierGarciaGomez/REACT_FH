@@ -5,6 +5,7 @@ import express, { Express } from "express";
 import { routers } from "../routes";
 import cors from "cors";
 import path from "path";
+import { connectDataBase } from "../db/config";
 
 class Server {
   private app: Express;
@@ -29,7 +30,7 @@ class Server {
   }
 
   async connectDB() {
-    // await connectDataBase();
+    await connectDataBase();
   }
 
   routes() {
@@ -47,6 +48,7 @@ class Server {
     this.app.use(cors());
     const publicPath = path.join(__dirname, "../public");
     this.app.use(express.static(publicPath));
+    this.app.use(cors());
     this.app.use(express.json());
     // this.app.use(
     //   fileUpload({
