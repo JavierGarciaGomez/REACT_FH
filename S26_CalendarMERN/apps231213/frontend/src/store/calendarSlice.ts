@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { addHours } from "date-fns";
-import { CalendarEvent, CalendarState } from "../../types/types";
+import { CalendarEvent, CalendarState } from "../types/types";
 
 const tempEvent: CalendarEvent = {
   _id: new Date().toString(),

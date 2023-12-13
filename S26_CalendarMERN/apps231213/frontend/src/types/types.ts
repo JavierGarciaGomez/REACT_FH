@@ -15,3 +15,16 @@ export type CalendarState = {
   events: CalendarEvent[];
   activeEvent: CalendarEvent | undefined;
 };
+
+export type AuthStatus = "checking" | "authenticated" | "not-authenticated";
+
+export type AuthState = {
+  status: AuthStatus;
+  user?: AuthUser;
+  errorMessage?: string;
+};
+
+export type AuthUser = {
+  name: string;
+  uid: string;
+};

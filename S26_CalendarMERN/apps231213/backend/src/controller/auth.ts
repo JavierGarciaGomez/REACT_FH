@@ -40,7 +40,7 @@ export const registerUser = async (req: Request, res: Response) => {
     user.password = await createHashedPassword(password);
     const createdUser = await user.save();
     const token = await generateJwt(user.id, user.name);
-    const data = { createdUser, token };
+    const data = { user: createdUser, token };
     return successResponse(res, 201, "resource created", data);
   } catch (error: any) {
     console.log({ error });

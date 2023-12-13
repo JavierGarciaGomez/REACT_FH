@@ -4,7 +4,7 @@ import {
   onDeleteEvent,
   onSetActiveEvent,
   onUpdateEvent,
-} from "../store/ui/calendarSlice";
+} from "../store/calendarSlice";
 import { CalendarEvent } from "../types/types";
 
 export const useCalendarStore = () => {
