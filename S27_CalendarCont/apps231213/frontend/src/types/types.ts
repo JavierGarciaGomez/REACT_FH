@@ -1,9 +1,9 @@
 export type CalendarEvent = {
-  _id?: string;
+  id?: string;
   title: string;
   notes: string;
-  start: Date;
-  end: Date;
+  startDate: Date;
+  endDate: Date;
   bgColor?: string;
   user?: {
     _id: string;
@@ -14,6 +14,7 @@ export type CalendarEvent = {
 export type CalendarState = {
   events: CalendarEvent[];
   activeEvent: CalendarEvent | undefined;
+  isLoadingEvents: boolean;
 };
 
 export type AuthStatus = "checking" | "authenticated" | "not-authenticated";

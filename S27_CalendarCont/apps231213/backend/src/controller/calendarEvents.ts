@@ -32,9 +32,12 @@ export const createCalendarEvent = async (
 
     const createdCalendarEvent = await newCalendarEvent.save();
 
-    return successResponse(res, 200, "createCalendarEvent", {
-      createdCalendarEvent,
-    });
+    return successResponse(
+      res,
+      200,
+      "createCalendarEvent",
+      createdCalendarEvent
+    );
   } catch (error) {
     res.status(500).json({ error, msg: "Error" });
   }
@@ -112,7 +115,9 @@ export const deleteCalendarEvent = async (
       });
     }
     await CalendarEventModel.findByIdAndDelete(calendarEventId);
-    return successResponse(res, 200, "deleteCalendarEvent");
+    return successResponse(res, 200, "deleteCalendarEvent", {
+      id: calendarEventId,
+    });
   } catch (error) {
     res.status(500).json({ error, msg: "Error" });
   }

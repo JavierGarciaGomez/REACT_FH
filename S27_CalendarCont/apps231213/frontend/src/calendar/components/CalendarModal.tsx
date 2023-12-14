@@ -31,8 +31,8 @@ export const CalendarModal = () => {
   const [formValues, setFormValues] = useState({
     title: "",
     notes: "",
-    start: new Date(),
-    end: addHours(new Date(), 2),
+    startDate: new Date(),
+    endDate: addHours(new Date(), 2),
   });
   const [isformSubmitted, setisformSubmitted] = useState(false);
   const titleClass = useMemo(() => {
@@ -65,7 +65,10 @@ export const CalendarModal = () => {
     event.preventDefault();
     setisformSubmitted(true);
 
-    const difference = differenceInSeconds(formValues.end, formValues.start);
+    const difference = differenceInSeconds(
+      formValues.endDate,
+      formValues.startDate
+    );
 
     if (isNaN(difference) || difference <= 0) {
       Swal.fire("Fechas incorrectas", "Revisar las fechas ingresadas", "error");
@@ -104,8 +107,8 @@ export const CalendarModal = () => {
         <div className="form-group mb-2">
           <label>Fecha y hora inicio</label>
           <DatePicker
-            selected={formValues.start}
-            onChange={(event) => handleDateChange(event!, "start")}
+            selected={formValues.startDate}
+            onChange={(event) => handleDateChange(event!, "startDate")}
             className="form-control"
             dateFormat="Pp"
             showTimeSelect
@@ -117,9 +120,9 @@ export const CalendarModal = () => {
         <div className="form-group mb-2">
           <label>Fecha y hora fin</label>
           <DatePicker
-            minDate={formValues.start}
-            selected={formValues.end}
-            onChange={(event) => handleDateChange(event!, "end")}
+            minDate={formValues.startDate}
+            selected={formValues.endDate}
+            onChange={(event) => handleDateChange(event!, "endDate")}
             className="form-control"
             dateFormat="Pp"
             showTimeSelect
