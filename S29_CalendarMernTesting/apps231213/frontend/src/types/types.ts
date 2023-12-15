@@ -29,3 +29,7 @@ export type AuthUser = {
   name: string;
   uid: string;
 };
+
+export type UiState = {
+  isDateModalOpen: boolean;
+};
